@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using CursoConsole;
 
 namespace CursoConsoleApplication
 {
@@ -11,9 +12,11 @@ namespace CursoConsoleApplication
     {
         static void Main(string[] args)
         {
-            String cliente = "", produto = "";
-            List<string> ListCli = new List<string>();
-            ArrayList ListPrd = new ArrayList();
+            List<Cliente> ListCli = new List<Cliente>();
+            List<Produto> ListPrd = new List<Produto>();
+
+            Cliente cliente = new Cliente();
+            Produto produto = new Produto();
 
             int opcao, operacao;
 
@@ -28,6 +31,7 @@ namespace CursoConsoleApplication
 
                 switch (opcao)
                 {
+
                     case 1:
                         Console.WriteLine ("1 - Cadastrar Cliente");
                         Console.WriteLine ("2 - Consultar Cliente");
@@ -58,45 +62,64 @@ namespace CursoConsoleApplication
 
                     if (operacao.Equals(1))
                     {
-                        Console.Write("Informe o nome:");
-                        cliente = Console.ReadLine();
+                        Console.Write("Informe o CPF: ");
+                        cliente.cpf = Convert.ToInt64(Console.ReadLine());
+                        Console.Write("Informe o nome: ");
+                        cliente.nome = Console.ReadLine();
+                        Console.Write("Informe o Sexo: ");
+                        cliente.sexo = Convert.ToChar(Console.ReadLine());
+                        Console.Write("Informe a Idade: ");
+                        cliente.idade = Convert.ToInt32(Console.ReadLine());
+                        Console.Write("Informe o Endereço: ");
+                        cliente.endereco = Console.ReadLine();
+                        Console.Write("Informe o Telefone: ");
+                        cliente.telefone = Convert.ToInt64(Console.ReadLine());
                         ListCli.Add(cliente);
                         Console.WriteLine("Cliente cadastrado com sucesso!");
                     }
 
                     else if ((operacao.Equals(2)))
                     {
-                        Console.WriteLine("Clientes Cadastrados: ");
+                        Console.WriteLine("Clientes Cadastrados");
 
-                        foreach (String cli in ListCli){
-                            Console.WriteLine("Cliente: " + cli);
+                        foreach (Cliente cli in ListCli){
+                            Console.WriteLine("");
+                            Console.WriteLine("CPF: " + cli.cpf);
+                            Console.WriteLine("Nome: " + cli.nome);
+                            Console.WriteLine("Idade: " + cli.idade);
+                            Console.WriteLine("Sexo: " + cli.sexo);
+                            Console.WriteLine("Endereço: " + cli.endereco);
+                            Console.WriteLine("Telefone: " + cli.telefone);
                         }
-
                         Console.ReadKey();
                     }
 
                     else if ((operacao.Equals(3)))
                     {
-                        Console.WriteLine("Informe o nome para busca");
+                        Console.WriteLine("Informe o nome para busca: ");
                         String nomeaux = Console.ReadLine();
+
                         foreach (var item in ListCli) {
-                            if (nomeaux.Equals(item)){
-                                Console.WriteLine("Nome: " + item);
-                                Console.ReadKey();
+                            if (item.nome.Equals(nomeaux)){
+                                Console.WriteLine("Nome: " + item.nome);
                             }
                         }
+                        Console.ReadKey();
                     }
 
                     else if ((operacao.Equals(4)))
                     {
-                        Console.WriteLine("Nome do Cliente a ser removido");
+                        Console.WriteLine("Nome do Cliente a ser removido: ");
                         String nomeaux = Console.ReadLine();
-                        bool removido = ListCli.Remove(nomeaux);
-                        if (removido)
+                        foreach (var item in ListCli)
                         {
-                            Console.WriteLine("Cliente Removido com Sucesso");
-                            Console.ReadKey();
+                            if (item.nome.Equals(nomeaux)){
+                                ListCli.Remove(item);
+                                Console.WriteLine("Cliente removido com sucesso.");
+                                break;
+                            }
                         }
+                        Console.ReadKey();
                     }
 
                     else
@@ -111,10 +134,16 @@ namespace CursoConsoleApplication
 
                     if (operacao.Equals(1))
                     {
-                        Console.Write("Produto:");
-                        produto = Console.ReadLine();
+                        Console.Write("Codigo: ");
+                        produto.codigo = Convert.ToInt32(Console.ReadLine());
+                        Console.Write("Descrição: ");
+                        produto.descricao = Console.ReadLine();
+                        Console.Write("Codigo: ");
+                        produto.fabricante = Console.ReadLine();
+                        Console.Write("Valor: R$ ");
+                        produto.valor = float.Parse(Console.ReadLine());
                         ListPrd.Add(produto);
-                        Console.WriteLine("Produto cadastrado com sucesso!");
+                        Console.WriteLine("Produto Adicionado com Sucesso");
                     }
 
                     else if ((operacao.Equals(2)))
@@ -122,7 +151,10 @@ namespace CursoConsoleApplication
 
                         foreach (var prd in ListPrd)
                         {
-                            Console.WriteLine("Produto: " + prd);
+                            Console.WriteLine("Codigo: " + prd.codigo);
+                            Console.WriteLine("Produto: " + prd.descricao);
+                            Console.WriteLine("Fabricante: " + prd.fabricante);
+                            Console.WriteLine("Valor:R$ " + prd.valor);
                         }
 
                         Console.ReadKey();
@@ -134,10 +166,12 @@ namespace CursoConsoleApplication
                         String produtoaux = Console.ReadLine();
                         foreach (var item in ListPrd)
                         {
-
-                            if (produtoaux.Equals(item))
+                            if (item.descricao.Equals(produtoaux))
                             {
-                                Console.WriteLine("Produto: " + item);
+                                Console.WriteLine("Código: " + item.codigo);
+                                Console.WriteLine("Descrição: " + item.descricao);
+                                Console.WriteLine("Fabricante: " + item.fabricante);
+                                Console.WriteLine("Valor: R$ " + item.valor);
                                 Console.ReadKey();
                             }
                         }
@@ -150,13 +184,14 @@ namespace CursoConsoleApplication
 
                         foreach (var prod in ListPrd)
                         {
-                            if (prod.Equals(produtoaux))
+                            if (prod.descricao.Equals(produtoaux))
                             {
                                 ListPrd.Remove(prod);
                                 Console.WriteLine("Produto removido com sucesso!");
                                 break;
                             }
                         }
+                        Console.ReadKey();
                     }
 
                     else
@@ -165,7 +200,7 @@ namespace CursoConsoleApplication
                     }
                 }
 
-            } while (opcao != 3);
+            } while (opcao != 3); //fim
         }
     }
 }
